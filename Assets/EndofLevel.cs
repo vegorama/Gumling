@@ -20,8 +20,8 @@ public class EndofLevel : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        Lists.Add("fruit", Fruit);
-        Lists.Add("family", Family);
+        Lists.Add("Fruit", Fruit);
+        Lists.Add("Family", Family);
 
         Fruit.Add(new Word("Banana", true, 7));
         Fruit.Add(new Word("Apple", true, 4));
@@ -42,15 +42,28 @@ public class EndofLevel : MonoBehaviour {
     public void Submit()
     {
         //TODO make this check if the list exists
-        var WordList = Lists[List1.text];
-                     
-        for (int i = 0; i < WordIds.Length; i++)
+        
+        if (Lists.ContainsKey(List1.text))
         {
-            ids.Add(new IDs(WordIds[i].text));
-            //Debug.Log("" + ids[i].id);
+            var WordList = Lists[List1.text];
+
+            for (int i = 0; i < WordIds.Length; i++)
+            {
+                if (WordIds[i].text != null)
+                {
+                    ids.Add(new IDs(WordIds[i].text));
+                    //Debug.Log("" + ids[i].id);
+                }
+            }
+
+            endOfLevel(WordList, ids);
         }
 
-        endOfLevel(WordList, ids);
+        else
+        {
+            Debug.Log("Please enter a valid list name");
+        }
+
     }
 
 
