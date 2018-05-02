@@ -51,16 +51,6 @@ public class EndofLevel : MonoBehaviour {
         Start();
     }
 
-    public static void KnuthShuffle<T>(T[] array)
-    {
-        System.Random random = new System.Random();
-        for (int i = 0; i < array.Length; i++)
-        {
-            int j = random.Next(i, array.Length); // Don't select from the entire array on subsequent loops
-            T temp = array[i]; array[i] = array[j]; array[j] = temp;
-        }
-    }
-
     public void Submit()
     {
         if (Lists.ContainsKey(List1.text.ToLower()))
@@ -116,23 +106,23 @@ public class EndofLevel : MonoBehaviour {
     public void endOfLevel(List <Word> WordType, List <IDs> WordsLearned)
     {
 
-        // for every Wordslearned.id
+        // for every Word learned
         for (int i = 0; i < WordsLearned.Count; i++)
         {
             var currentWord = WordType[(int.Parse(WordsLearned[i].id)) - 1];
 
             //increase number of times learned
             currentWord.numberOfTimesLearned++;
+
             //Set hasAlreadyCollected bool
             if (currentWord.hasAlreadyCollected == false)
             {
                 WordType[(int.Parse(WordsLearned[i].id)) - 1].hasAlreadyCollected = true;
             }
 
-            //Debug.Log("" + WordType[(int.Parse(WordsLearned[i].id)) - 1].id);
         }
 
-        //New list of all valid words
+        //Make new list of all valid words
         for (int t = 0; t < WordType.Count; t++)
         {
             if (WordType[t].hasAlreadyCollected == true)
@@ -140,17 +130,9 @@ public class EndofLevel : MonoBehaviour {
                 WordsToPrint.Add(WordType[t].id);
             }
         }
-             
+        
+       //Convert to array for shuffle simplicity
         string[] stringsToPrint = WordsToPrint.ToArray();
-
-        /*
-        //Select 3 random words that have been learned and award them    
-        for (int i = 0; i < 3; i++)
-        {
-            var index = Random.Range(0, WordsToPrint.Count);         
-            stringsToPrint[i] = WordsToPrint[index];          
-        }
-        */ 
 
         //Shuffle the strings
         for (int t = 0; t < stringsToPrint.Length; t++)
@@ -161,8 +143,9 @@ public class EndofLevel : MonoBehaviour {
             stringsToPrint[r] = tmp;
         }
 
-        //Print values to screen
+        //Print first 3 shuffled values to screen
         stickersLog.text = "Stickers Awarded \n 1." + stringsToPrint[0]  + "\n 2. " + stringsToPrint[1] + "\n 3. " + stringsToPrint[2];
+
 
 
         //Clear Lists
@@ -170,5 +153,4 @@ public class EndofLevel : MonoBehaviour {
         WordsToPrint.Clear();
     }
 
-    //var hasCollectedFruit = WordType.Where(x => x.hasAlreadyCollected == true);
 }
