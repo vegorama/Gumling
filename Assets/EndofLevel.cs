@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,7 +29,7 @@ public class EndofLevel : MonoBehaviour {
 
         Fruit.Add(new Word("Banana", true, 7));
         Fruit.Add(new Word("Apple", true, 4));
-        Fruit.Add(new Word("Orange", false, 0));
+        Fruit.Add(new Word("Orange", true, 0));
         Fruit.Add(new Word("Pear", false, 0));
         Fruit.Add(new Word("Coconut", false, 0));
         Fruit.Add(new Word("Strawberry", false, 0));
@@ -42,6 +41,24 @@ public class EndofLevel : MonoBehaviour {
         Family.Add(new Word("Grandma", false, 0));
         Family.Add(new Word("Grandad", false, 0));
      
+    }
+
+    public void Restart()
+    {
+        Lists.Clear();
+        Fruit.Clear();
+        Family.Clear();
+        Start();
+    }
+
+    public static void KnuthShuffle<T>(T[] array)
+    {
+        System.Random random = new System.Random();
+        for (int i = 0; i < array.Length; i++)
+        {
+            int j = random.Next(i, array.Length); // Don't select from the entire array on subsequent loops
+            T temp = array[i]; array[i] = array[j]; array[j] = temp;
+        }
     }
 
     public void Submit()
@@ -123,12 +140,29 @@ public class EndofLevel : MonoBehaviour {
                 WordsToPrint.Add(WordType[t].id);
             }
         }
+             
+        string[] stringsToPrint = WordsToPrint.ToArray();
 
-        //Select 3 random words that have been learned and award them
+        /*
+        //Select 3 random words that have been learned and award them    
+        for (int i = 0; i < 3; i++)
+        {
+            var index = Random.Range(0, WordsToPrint.Count);         
+            stringsToPrint[i] = WordsToPrint[index];          
+        }
+        */ 
 
+        //Shuffle the strings
+        for (int t = 0; t < stringsToPrint.Length; t++)
+        {
+            string tmp = stringsToPrint[t];
+            int r = Random.Range(t, stringsToPrint.Length);
+            stringsToPrint[t] = stringsToPrint[r];
+            stringsToPrint[r] = tmp;
+        }
 
         //Print values to screen
-        stickersLog.text = "Stickers Awarded \n 1." + WordsToPrint[1]  + "\n 2. \n 3.";
+        stickersLog.text = "Stickers Awarded \n 1." + stringsToPrint[0]  + "\n 2. " + stringsToPrint[1] + "\n 3. " + stringsToPrint[2];
 
 
         //Clear Lists
