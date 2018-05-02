@@ -8,7 +8,7 @@ public class EndofLevel : MonoBehaviour {
 
     public InputField List1;
     public InputField[] WordIds;
-
+    public Text stickersLog;
 
     private List<Word> Fruit = new List<Word>();
     private List<Word> Family = new List<Word>();
@@ -20,8 +20,8 @@ public class EndofLevel : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        Lists.Add("Fruit", Fruit);
-        Lists.Add("Family", Family);
+        Lists.Add("fruit", Fruit);
+        Lists.Add("family", Family);
 
         Fruit.Add(new Word("Banana", true, 7));
         Fruit.Add(new Word("Apple", true, 4));
@@ -41,11 +41,11 @@ public class EndofLevel : MonoBehaviour {
 
     public void Submit()
     {
-        //TODO make this check if the list exists
-        
-        if (Lists.ContainsKey(List1.text))
+        if (Lists.ContainsKey(List1.text.ToLower()))
         {
+            //The word list is equal to the string in the input field
             var WordList = Lists[List1.text];
+
 
             for (int i = 0; i < WordIds.Length; i++)
             {
@@ -56,33 +56,48 @@ public class EndofLevel : MonoBehaviour {
                 }
             }
 
+            //If all good, pass through to function
             endOfLevel(WordList, ids);
         }
 
         else
         {
+            stickersLog.text = "Stickers Awarded \n Please enter a valid list name";
             Debug.Log("Please enter a valid list name");
+
+            ids.Clear();
         }
 
     }
-
 
     public void endOfLevel(List <Word> WordType, List <IDs> WordsLearned)
     {
+
         // for every Wordslearned.id
         for (int i = 0; i < WordsLearned.Count; i++)
         {
-            // use Wordtype[WordsLearned[i].id] to fetch the things?
+            var currentWord = WordType[(int.Parse(WordsLearned[i].id)) - 1];
 
-            Debug.Log("" + WordType[int.Parse(WordsLearned[i].id)].id);
+            //increase number of times learned
+            currentWord.numberOfTimesLearned++;
+            //Set hasAlreadyCollected bool
+            if (currentWord.hasAlreadyCollected == false)
+            {
+                WordType[(int.Parse(WordsLearned[i].id)) - 1].hasAlreadyCollected = true;
+            }
 
-            //Debug.Log("" + Fruit[4].id);
+            //Debug.Log("" + WordType[(int.Parse(WordsLearned[i].id)) - 1].id);
         }
 
+        //Select 3 random words that have been learned and award them
 
+        var hasCollectedFruit = WordType.Where(x => x.hasAlreadyCollected == true);
+
+        
+        stickersLog.text = "Stickers Awarded \n 1. \n 2. \n 3.";
+
+        ids.Clear();
     }
-
-
 
 
 }
