@@ -285,11 +285,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Stickers awarded:
 
-    1.
-
-    2.
-
-    3.'
+'
 --- !u!222 &75856979
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -557,8 +553,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c3e0dfd5af6ae4c81286a334fceb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  List1: {fileID: 0}
-  WordIds: []
+  List1: {fileID: 651121287}
+  WordIds:
+  - {fileID: 1465952999}
+  - {fileID: 1932734214}
+  - {fileID: 2029374821}
+  stickersLog: {fileID: 75856978}
 --- !u!4 &551488714
 Transform:
   m_ObjectHideFlags: 0

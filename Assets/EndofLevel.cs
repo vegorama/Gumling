@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,8 +11,12 @@ public class EndofLevel : MonoBehaviour {
     public InputField[] WordIds;
     public Text stickersLog;
 
+    private bool list1Correct;
+    private bool wordIdsCorrect;
+
     private List<Word> Fruit = new List<Word>();
     private List<Word> Family = new List<Word>();
+    private List<string> WordsToPrint = new List<string>();
 
     Dictionary<string, List<Word>> Lists = new Dictionary<string, List<Word>>();
 
@@ -42,32 +47,53 @@ public class EndofLevel : MonoBehaviour {
     public void Submit()
     {
         if (Lists.ContainsKey(List1.text.ToLower()))
-        {
+        {          
             //The word list is equal to the string in the input field
             var WordList = Lists[List1.text];
 
+            list1Correct = true;
+            wordIdsCorrect = true;
 
+            //Iterate through each id inputfield and add number to the id List
             for (int i = 0; i < WordIds.Length; i++)
             {
-                if (WordIds[i].text != null)
+                int wordValue;
+                int.TryParse(WordIds[i].text, out wordValue);
+
+                if ((WordIds[i].text != null) && (0 < wordValue && wordValue < 7))
                 {
                     ids.Add(new IDs(WordIds[i].text));
                     //Debug.Log("" + ids[i].id);
                 }
+                else
+                {
+                    Debug.Log("Please enter 3 valid ID's");                   
+                    wordIdsCorrect = false;
+                }
             }
 
             //If all good, pass through to function
-            endOfLevel(WordList, ids);
+            if (list1Correct && wordIdsCorrect)
+            {
+                endOfLevel(WordList, ids);
+            }
+
         }
 
-        else
+        //If bad, print error
+        if (!list1Correct)
         {
             stickersLog.text = "Stickers Awarded \n Please enter a valid list name";
-            Debug.Log("Please enter a valid list name");
-
-            ids.Clear();
+        }
+        else if (!wordIdsCorrect)
+        {
+            stickersLog.text = "Stickers Awarded \n Please enter 3 valid ID's";
         }
 
+        //Reset checks and variables
+        list1Correct = false;
+        wordIdsCorrect = false;
+        ids.Clear();
     }
 
     public void endOfLevel(List <Word> WordType, List <IDs> WordsLearned)
@@ -89,15 +115,26 @@ public class EndofLevel : MonoBehaviour {
             //Debug.Log("" + WordType[(int.Parse(WordsLearned[i].id)) - 1].id);
         }
 
+        //New list of all valid words
+        for (int t = 0; t < WordType.Count; t++)
+        {
+            if (WordType[t].hasAlreadyCollected == true)
+            {
+                WordsToPrint.Add(WordType[t].id);
+            }
+        }
+
         //Select 3 random words that have been learned and award them
 
-        var hasCollectedFruit = WordType.Where(x => x.hasAlreadyCollected == true);
 
-        
-        stickersLog.text = "Stickers Awarded \n 1. \n 2. \n 3.";
+        //Print values to screen
+        stickersLog.text = "Stickers Awarded \n 1." + WordsToPrint[1]  + "\n 2. \n 3.";
 
+
+        //Clear Lists
         ids.Clear();
+        WordsToPrint.Clear();
     }
 
-
+    //var hasCollectedFruit = WordType.Where(x => x.hasAlreadyCollected == true);
 }
