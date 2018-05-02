@@ -13,11 +13,15 @@ public class EndofLevel : MonoBehaviour {
     private List<Word> Fruit = new List<Word>();
     private List<Word> Family = new List<Word>();
 
+    Dictionary<string, List<Word>> Lists = new Dictionary<string, List<Word>>();
+
     private List<IDs> ids = new List<IDs>();
 
     // Use this for initialization
     void Start ()
     {
+        Lists.Add("fruit", Fruit);
+        Lists.Add("family", Family);
 
         Fruit.Add(new Word("Banana", true, 7));
         Fruit.Add(new Word("Apple", true, 4));
@@ -37,36 +41,35 @@ public class EndofLevel : MonoBehaviour {
 
     public void Submit()
     {
-        string WordType = List1.text;
-               
+        //TODO make this check if the list exists
+        var WordList = Lists[List1.text];
+                     
         for (int i = 0; i < WordIds.Length; i++)
         {
             ids.Add(new IDs(WordIds[i].text));
+            //Debug.Log("" + ids[i].id);
+        }
+
+        endOfLevel(WordList, ids);
+    }
 
 
-            Debug.Log("" + ids[i].id);
+    public void endOfLevel(List <Word> WordType, List <IDs> WordsLearned)
+    {
+        // for every Wordslearned.id
+        for (int i = 0; i < WordsLearned.Count; i++)
+        {
+            // use Wordtype[WordsLearned[i].id] to fetch the things?
+
+            Debug.Log("" + WordType[int.Parse(WordsLearned[i].id)].id);
+
+            //Debug.Log("" + Fruit[4].id);
         }
 
 
-        Debug.Log("" + Fruit[4].id);
-    }
-
-    public void endOfLevel(List <Word> WordType, List <Word> WordsLearned)
-    {
-       
     }
 
 
-    /*
-    private List<Word> Fruit = new List<Word>();
-    private List<Word> Family = new List<Word>();
 
-    Dictionary<string, List<Word>> Lists = new Dictionary<string, List<Word>>();
-    Lists.Add("fruit", Fruit);
-    Lists.Add("family", Family);
-
-    And then get it
-    var myList = Lists["family"];
-    */
 
 }
