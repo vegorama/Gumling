@@ -40,7 +40,7 @@ public class EndofLevel : MonoBehaviour {
         ids.Add(new IDs("5"));
         ids.Add(new IDs("6"));
 
-}
+    }
 
     public void submit()
     {
