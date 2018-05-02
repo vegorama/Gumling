@@ -12,12 +12,12 @@ public class EndofLevel : MonoBehaviour {
 
     private List<Word> Fruit = new List<Word>();
     private List<Word> Family = new List<Word>();
+
     private List<IDs> ids = new List<IDs>();
 
     // Use this for initialization
     void Start ()
     {
-        WordIds = new InputField[3];
 
         Fruit.Add(new Word("Banana", true, 7));
         Fruit.Add(new Word("Apple", true, 4));
@@ -32,22 +32,23 @@ public class EndofLevel : MonoBehaviour {
         Family.Add(new Word("Brother", false, 0));
         Family.Add(new Word("Grandma", false, 0));
         Family.Add(new Word("Grandad", false, 0));
-
-        ids.Add(new IDs("1"));
-        ids.Add(new IDs("2"));
-        ids.Add(new IDs("3"));
-        ids.Add(new IDs("4"));
-        ids.Add(new IDs("5"));
-        ids.Add(new IDs("6"));
-
+     
     }
 
-    public void submit()
+    public void Submit()
     {
         string WordType = List1.text;
-        
+               
+        for (int i = 0; i < WordIds.Length; i++)
+        {
+            ids.Add(new IDs(WordIds[i].text));
 
-        
+
+            Debug.Log("" + ids[i].id);
+        }
+
+
+        Debug.Log("" + Fruit[4].id);
     }
 
     public void endOfLevel(List <Word> WordType, List <Word> WordsLearned)
